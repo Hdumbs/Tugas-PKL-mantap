@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@source "../**/*.blade.php";
+@source "../**/*.jsx";
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-emerald-primary: #10b981;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f9fafb;
+}
