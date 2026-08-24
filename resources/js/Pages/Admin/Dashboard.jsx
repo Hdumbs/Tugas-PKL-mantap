@@ -164,7 +164,7 @@ export default function Dashboard({
                             <Bot size={22} />
                         </div>
                         <div>
-                            <h3 className="font-extrabold text-base text-[#223311]">Asisten AI Vitality Grid</h3>
+                            <h3 className="font-extrabold text-base text-[#223311]">Asisten AI Amidyas</h3>
                             <p className="text-xs text-gray-400 font-medium">Asisten analisis bisnis & rekomendasi rasa resto</p>
                         </div>
                     </div>

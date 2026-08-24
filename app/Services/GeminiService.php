@@ -28,7 +28,7 @@ class GeminiService
             $totalSales = $salesContext['total_scans'] ?? 0;
             $avgRating = $salesContext['avg_rating'] ?? 4.8;
 
-            $prompt = "Kamu adalah Executive AI Sales & Business Advisor cerdas untuk owner resto Amidyas Superfood (Vitality Grid).
+            $prompt = "Kamu adalah Executive AI Sales & Business Advisor cerdas untuk owner resto Amidyas Superfood (Amidyas Food Scanner).
 Berikut data bisnis terkini resto kami:
 - Total Pemindaian & Pesanan: {$totalSales}
 - Rata-rata Rating Pelanggan: {$avgRating} / 5
@@ -72,7 +72,7 @@ Tugasmu: Berikan analisis penjualan terbaik, menu kurang laku, saran strategi pr
             // Using fast Gemini 3.5 Flash Lite
             $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={$this->apiKey}";
 
-            $prompt = "Kamu adalah sistem analisis makanan AI presisi tinggi & ahli gizi terkemuka untuk Amidyas Superfood (Vitality Grid).
+            $prompt = "Kamu adalah sistem analisis makanan AI presisi tinggi untuk Amidyas Superfood.
 
 LANGKAH ANALISIS:
 1. Periksa apakah gambar berisi makanan/minuman konsumsi. Jika BUKAN makanan/minuman, set \"is_food\": false, \"error\": \"Scan gagal, makanan tidak terdeteksi\".

@@ -33,7 +33,7 @@ export default function ScanResult({ scan }) {
                 <div className="flex items-center gap-3">
                     <img src="/images/logo.png" alt="CHIA Logo" className="w-10 h-10 object-contain" />
                     <div>
-                        <h1 className="text-base font-extrabold text-[#223311]">Vitality Grid</h1>
+                        <h1 className="text-base font-extrabold text-[#223311]">Amidyas Food Scanner</h1>
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Hasil Analisis Nutrisi AI</p>
                     </div>
                 </div>

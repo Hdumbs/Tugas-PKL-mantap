@@ -24,12 +24,12 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
             {/* Sidebar Left - Amidyas Superfood Admin Style */}
             <aside className="w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0 fixed top-0 bottom-0 left-0 z-40 h-screen overflow-y-auto">
                 <div>
-                    {/* Vitality Grid Brand Logo */}
+                    {/* Brand Logo */}
                     <div className="flex items-center gap-3 mb-8 px-2">
                         <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-12 h-12 rounded-2xl object-contain shadow-xs" />
                         <div>
-                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">Vitality Grid</h1>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Amidyas Superfood</p>
+                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">Amidyas Scanner</h1>
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Admin Portal</p>
                         </div>
                     </div>
 
@@ -90,8 +90,8 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                     <div className="flex items-center gap-3">
                         <img src="/images/logo.png" alt="Logo" className="w-9 h-9 object-contain" />
                         <div>
-                            <h2 className="text-base font-extrabold text-[#223311]">Vitality Grid Admin</h2>
-                            <p className="text-[10px] text-gray-400 font-bold">Amidyas Superfood Portal</p>
+                            <h2 className="text-base font-extrabold text-[#223311]">Amidyas Food Scanner</h2>
+                            <p className="text-[10px] text-gray-400 font-bold">Admin Portal</p>
                         </div>
                     </div>
 

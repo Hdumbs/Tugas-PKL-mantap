@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-const appName = 'Vitality Grid';
+const appName = 'Amidyas Food Scanner';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

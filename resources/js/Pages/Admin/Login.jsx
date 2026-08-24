@@ -22,8 +22,8 @@ export default function Login({ errors }) {
                 {/* Branding */}
                 <div className="text-center space-y-2">
                     <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-16 h-16 object-contain mx-auto drop-shadow-md" />
-                    <h1 className="text-2xl font-extrabold text-gray-900">Vitality Grid</h1>
-                    <p className="text-xs text-gray-500 font-semibold">Vitality Grid Admin Portal</p>
+                    <h1 className="text-2xl font-extrabold text-gray-900">Amidyas Food Scanner</h1>
+                    <p className="text-xs text-gray-500 font-semibold">Admin Portal</p>
                 </div>
 
                 {errors?.email && (
