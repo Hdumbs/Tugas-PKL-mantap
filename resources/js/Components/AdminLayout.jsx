@@ -26,9 +26,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                 <div>
                     {/* Vitality Grid Brand Logo */}
                     <div className="flex items-center gap-3 mb-8 px-2">
-                        <div className="w-12 h-12 rounded-2xl bg-[#64ac1d] flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-emerald-200">
-                            🥗
-                        </div>
+                        <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-12 h-12 rounded-2xl object-contain shadow-xs" />
                         <div>
                             <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">Vitality Grid</h1>
                             <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Amidyas Superfood</p>
@@ -90,9 +88,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                 {/* Topbar */}
                 <header className="bg-white border-b border-gray-100 px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-2xs">
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-gray-50 text-gray-600 border border-gray-100">
-                            <LayoutDashboard size={18} />
-                        </div>
+                        <img src="/images/logo.png" alt="Logo" className="w-9 h-9 object-contain" />
                         <div>
                             <h2 className="text-base font-extrabold text-[#223311]">Vitality Grid Admin</h2>
                             <p className="text-[10px] text-gray-400 font-bold">Amidyas Superfood Portal</p>

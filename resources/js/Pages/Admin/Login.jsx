@@ -21,9 +21,7 @@ export default function Login({ errors }) {
             <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 p-8 space-y-6">
                 {/* Branding */}
                 <div className="text-center space-y-2">
-                    <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center text-white mx-auto shadow-lg shadow-emerald-500/30">
-                        <ShieldCheck size={32} />
-                    </div>
+                    <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-16 h-16 object-contain mx-auto drop-shadow-md" />
                     <h1 className="text-2xl font-extrabold text-gray-900">Vitality Grid</h1>
                     <p className="text-xs text-gray-500 font-semibold">Vitality Grid Admin Portal</p>
                 </div>

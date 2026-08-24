@@ -103,11 +103,9 @@ export default function Scanner({ errors }) {
                 {/* CHIAMATES Styled Header */}
                 <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center px-6 py-5 bg-gradient-to-b from-black/90 via-black/60 to-transparent backdrop-blur-md text-white">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-[#64ac1d] flex items-center justify-center text-white font-extrabold text-lg shadow-md">
-                            ✨
-                        </div>
+                        <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-10 h-10 object-contain drop-shadow-md" />
                         <div>
-                            <span className="font-extrabold text-sm md:text-base tracking-wider uppercase text-white block">CHIAMATES Scanner</span>
+                            <span className="font-extrabold text-sm md:text-base tracking-wider uppercase text-white block">Vitality AI Scanner</span>
                             <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-widest block">Amidyas Superfood</span>
                         </div>
                     </div>
