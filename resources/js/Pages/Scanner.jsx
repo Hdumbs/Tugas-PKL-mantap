@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { router } from '@inertiajs/react';
-import { Camera, Zap, RefreshCw, AlertCircle, Upload, XCircle, Grid, Sparkles, ShieldCheck, HelpCircle, Activity } from 'lucide-react';
+import { Camera, Zap, RefreshCw, AlertCircle, Upload, XCircle, Grid, Sparkles, ShieldCheck, Activity } from 'lucide-react';
 
 export default function Scanner({ errors }) {
     const videoRef = useRef(null);
@@ -97,20 +97,18 @@ export default function Scanner({ errors }) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center p-0 md:p-6 text-white font-sans selection:bg-emerald-500 selection:text-white">
-            <div className="w-full max-w-md md:max-w-3xl lg:max-w-5xl md:h-[88vh] bg-slate-900 flex flex-col relative md:rounded-3xl shadow-[0_0_60px_rgba(16,185,129,0.15)] overflow-hidden border border-slate-800">
+        <div className="min-h-screen bg-[#f7faf4] flex items-center justify-center p-0 md:p-6 text-[#223311] font-sans selection:bg-[#64ac1d] selection:text-white">
+            <div className="w-full max-w-md md:max-w-3xl lg:max-w-5xl md:h-[88vh] bg-slate-950 flex flex-col relative md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                 
-                {/* Top Floating Glassmorphism Header */}
-                <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center px-6 py-5 bg-gradient-to-b from-slate-950/95 via-slate-950/60 to-transparent backdrop-blur-md">
+                {/* CHIAMATES Styled Header */}
+                <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center px-6 py-5 bg-gradient-to-b from-black/90 via-black/60 to-transparent backdrop-blur-md text-white">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
-                            <ShieldCheck size={22} />
+                        <div className="w-10 h-10 rounded-2xl bg-[#64ac1d] flex items-center justify-center text-white font-extrabold text-lg shadow-md">
+                            ✨
                         </div>
                         <div>
-                            <span className="font-black text-sm md:text-base tracking-wider uppercase text-white block">Vitality AI Scanner</span>
-                            <span className="text-[10px] text-emerald-400 font-extrabold uppercase tracking-widest flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Amidyas Superfood
-                            </span>
+                            <span className="font-extrabold text-sm md:text-base tracking-wider uppercase text-white block">CHIAMATES Scanner</span>
+                            <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-widest block">Amidyas Superfood</span>
                         </div>
                     </div>
 
@@ -119,7 +117,7 @@ export default function Scanner({ errors }) {
                             onClick={() => setShowGrid(!showGrid)}
                             className={`p-3 rounded-2xl border transition backdrop-blur-md active:scale-95 ${
                                 showGrid
-                                    ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-300 shadow-md shadow-emerald-500/10'
+                                    ? 'bg-[#64ac1d]/30 border-[#64ac1d] text-emerald-300'
                                     : 'bg-white/10 border-white/10 text-gray-400 hover:text-white'
                             }`}
                             title="Toggle Alignment Grid"
@@ -131,17 +129,17 @@ export default function Scanner({ errors }) {
                             onClick={toggleTorch}
                             className={`p-3 rounded-2xl border transition backdrop-blur-md active:scale-95 ${
                                 torchOn
-                                    ? 'bg-amber-500/20 border-amber-400/50 text-amber-300 shadow-md shadow-amber-500/10'
+                                    ? 'bg-amber-500/20 border-amber-400/50 text-amber-300'
                                     : 'bg-white/10 border-white/10 text-gray-400 hover:text-white'
                             }`}
-                            title="Senter Flashlight"
+                            title="Flashlight"
                         >
                             <Zap size={18} />
                         </button>
                     </div>
                 </div>
 
-                {/* Camera Viewfinder Screen */}
+                {/* Camera Screen */}
                 <div className="relative flex-1 flex flex-col justify-center items-center bg-slate-950 overflow-hidden min-h-[460px]">
                     <video
                         ref={videoRef}
@@ -159,22 +157,20 @@ export default function Scanner({ errors }) {
                         />
                     )}
 
-                    {/* Rule of Thirds Grid */}
                     {showGrid && (
-                        <div className="absolute inset-0 pointer-events-none opacity-15 grid grid-cols-3 grid-rows-3 z-10">
-                            <div className="border-r border-b border-emerald-400" />
-                            <div className="border-r border-b border-emerald-400" />
-                            <div className="border-b border-emerald-400" />
-                            <div className="border-r border-b border-emerald-400" />
-                            <div className="border-r border-b border-emerald-400" />
-                            <div className="border-b border-emerald-400" />
-                            <div className="border-r border-emerald-400" />
-                            <div className="border-r border-emerald-400" />
+                        <div className="absolute inset-0 pointer-events-none opacity-20 grid grid-cols-3 grid-rows-3 z-10">
+                            <div className="border-r border-b border-[#64ac1d]" />
+                            <div className="border-r border-b border-[#64ac1d]" />
+                            <div className="border-b border-[#64ac1d]" />
+                            <div className="border-r border-b border-[#64ac1d]" />
+                            <div className="border-r border-b border-[#64ac1d]" />
+                            <div className="border-b border-[#64ac1d]" />
+                            <div className="border-r border-[#64ac1d]" />
+                            <div className="border-r border-[#64ac1d]" />
                             <div />
                         </div>
                     )}
 
-                    {/* Non-food Error Toast Popup */}
                     {scanErrorMessage && (
                         <div className="absolute top-24 z-40 mx-6 bg-rose-600/95 text-white text-xs md:text-sm font-black px-6 py-3.5 rounded-2xl shadow-2xl backdrop-blur-md border border-rose-400 flex items-center gap-3 animate-bounce">
                             <XCircle size={22} className="shrink-0 text-white" />
@@ -182,18 +178,16 @@ export default function Scanner({ errors }) {
                         </div>
                     )}
 
-                    {/* Interactive Neon Scanner Target Frame */}
-                    <div className="relative z-20 w-72 md:w-96 h-72 md:h-96 border-2 border-emerald-400/70 rounded-3xl flex items-center justify-center p-4 shadow-[0_0_60px_rgba(16,185,129,0.25)]">
-                        {/* Neon Corner Handles */}
-                        <div className="absolute -top-1 -left-1 w-10 h-10 border-t-4 border-l-4 border-emerald-400 rounded-tl-2xl shadow-lg" />
-                        <div className="absolute -top-1 -right-1 w-10 h-10 border-t-4 border-r-4 border-emerald-400 rounded-tr-2xl shadow-lg" />
-                        <div className="absolute -bottom-1 -left-1 w-10 h-10 border-b-4 border-l-4 border-emerald-400 rounded-bl-2xl shadow-lg" />
-                        <div className="absolute -bottom-1 -right-1 w-10 h-10 border-b-4 border-r-4 border-emerald-400 rounded-br-2xl shadow-lg" />
+                    {/* Target Reticle */}
+                    <div className="relative z-20 w-72 md:w-96 h-72 md:h-96 border-2 border-[#64ac1d] rounded-3xl flex items-center justify-center p-4 shadow-[0_0_50px_rgba(100,172,29,0.3)]">
+                        <div className="absolute -top-1 -left-1 w-10 h-10 border-t-4 border-l-4 border-[#64ac1d] rounded-tl-2xl" />
+                        <div className="absolute -top-1 -right-1 w-10 h-10 border-t-4 border-r-4 border-[#64ac1d] rounded-tr-2xl" />
+                        <div className="absolute -bottom-1 -left-1 w-10 h-10 border-b-4 border-l-4 border-[#64ac1d] rounded-bl-2xl" />
+                        <div className="absolute -bottom-1 -right-1 w-10 h-10 border-b-4 border-r-4 border-[#64ac1d] rounded-br-2xl" />
 
-                        {/* Radar Sweep Effect */}
-                        <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_25px_#10b981] animate-bounce" />
+                        <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#64ac1d] to-transparent shadow-[0_0_20px_#64ac1d] animate-bounce" />
 
-                        <div className="bg-slate-950/70 backdrop-blur-md px-5 py-2.5 rounded-full text-xs font-black text-emerald-300 border border-emerald-400/40 shadow-xl flex items-center gap-2">
+                        <div className="bg-black/70 backdrop-blur-md px-5 py-2.5 rounded-full text-xs font-extrabold text-emerald-300 border border-[#64ac1d]/50 shadow-xl flex items-center gap-2">
                             <Sparkles size={16} className="animate-spin text-emerald-400" />
                             Posisikan hidangan di dalam bingkai
                         </div>
@@ -205,17 +199,12 @@ export default function Scanner({ errors }) {
                             <span>{cameraError}</span>
                         </div>
                     )}
-
-                    <div className="relative z-20 mt-6 flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md text-[11px] md:text-xs text-gray-300 font-bold">
-                        <Activity size={14} className="text-emerald-400" />
-                        <span>Deteksi Kalori & Gizi Kilat (Gemini AI 3.5)</span>
-                    </div>
                 </div>
 
                 {/* Shutter Dock Area */}
-                <div className="relative z-30 bg-slate-950 p-6 md:p-8 flex items-center justify-center gap-8 border-t border-slate-800/80">
+                <div className="relative z-30 bg-slate-950 p-6 md:p-8 flex items-center justify-center gap-8 border-t border-slate-800">
                     <label
-                        className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-gray-300 hover:text-emerald-400 hover:border-emerald-500/50 transition cursor-pointer active:scale-95 shadow-md flex flex-col items-center gap-1"
+                        className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-gray-300 hover:text-emerald-400 hover:border-[#64ac1d] transition cursor-pointer active:scale-95 shadow-md flex flex-col items-center gap-1"
                         title="Upload Foto Makanan Dari Galeri"
                     >
                         <Upload size={22} />
@@ -223,12 +212,11 @@ export default function Scanner({ errors }) {
                         <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
                     </label>
 
-                    {/* Outer Glowing Shutter Ring */}
-                    <div className="relative p-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 rounded-full shadow-[0_0_35px_rgba(16,185,129,0.45)]">
+                    <div className="relative p-1.5 bg-[#64ac1d] rounded-full shadow-[0_0_35px_rgba(100,172,29,0.5)]">
                         <button
                             onClick={handleCapture}
                             disabled={isProcessing}
-                            className="relative w-20 h-20 md:w-22 md:h-22 rounded-full bg-gradient-to-tr from-emerald-600 to-emerald-400 hover:from-emerald-500 hover:to-emerald-300 flex items-center justify-center border-4 border-slate-950 active:scale-95 transition-all shadow-inner"
+                            className="relative w-20 h-20 md:w-22 md:h-22 rounded-full bg-[#64ac1d] hover:bg-emerald-600 flex items-center justify-center border-4 border-slate-950 active:scale-95 transition-all shadow-inner"
                         >
                             {isProcessing ? (
                                 <RefreshCw className="animate-spin text-white" size={36} />
@@ -240,7 +228,7 @@ export default function Scanner({ errors }) {
 
                     <button
                         onClick={startCamera}
-                        className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-gray-300 hover:text-emerald-400 hover:border-emerald-500/50 transition active:scale-95 shadow-md flex flex-col items-center gap-1"
+                        className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-gray-300 hover:text-emerald-400 hover:border-[#64ac1d] transition active:scale-95 shadow-md flex flex-col items-center gap-1"
                         title="Muat Ulang Kamera"
                     >
                         <RefreshCw size={22} />
@@ -248,13 +236,12 @@ export default function Scanner({ errors }) {
                     </button>
                 </div>
 
-                {/* Interactive Fullscreen Analyzing Loader Overlay */}
                 {isProcessing && (
-                    <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
-                        <div className="w-20 h-20 rounded-full border-4 border-emerald-500/30 border-t-emerald-400 animate-spin flex items-center justify-center shadow-[0_0_40px_#10b981]">
-                            <Sparkles size={30} className="text-emerald-400 animate-pulse" />
+                    <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4 text-white">
+                        <div className="w-20 h-20 rounded-full border-4 border-[#64ac1d]/30 border-t-[#64ac1d] animate-spin flex items-center justify-center shadow-[0_0_40px_#64ac1d]">
+                            <Sparkles size={30} className="text-[#64ac1d] animate-pulse" />
                         </div>
-                        <h3 className="text-xl font-black text-white tracking-wide">Menganalisis Makanan...</h3>
+                        <h3 className="text-xl font-black tracking-wide">Menganalisis Makanan...</h3>
                         <p className="text-xs text-gray-400 font-bold">Gemini AI sedang menghitung kalori & makronutrisi hidangan kamu</p>
                     </div>
                 )}

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
-import { LayoutDashboard, Users, Cpu, Database, LogOut, ShieldCheck, Bell, HelpCircle } from 'lucide-react';
+import { LayoutDashboard, Users, Cpu, Database, LogOut, ShieldCheck, Bell, HelpCircle, User } from 'lucide-react';
 
 export default function AdminLayout({ children, title = 'Dashboard' }) {
     const { auth } = usePage().props;
-    const user = auth?.user || { name: 'Super Admin', role: 'Super Admin', email: 'admin@amidyas.com' };
+    const user = auth?.user || { name: 'Dafha Petakilan', role: 'Super Admin', email: 'admin@amidyas.com' };
 
     const navItems = [
-        { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-        { name: 'Team Members', href: '/admin/team', icon: Users },
-        { name: 'AI Analytics', href: '/admin/ai-analytics', icon: Cpu },
-        { name: 'Dietary Database', href: '/admin/dietary-database', icon: Database },
+        { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, badge: 'H' },
+        { name: 'Team Members', href: '/admin/team', icon: Users, badge: 'K' },
+        { name: 'AI Analytics', href: '/admin/ai-analytics', icon: Cpu, badge: 'P' },
+        { name: 'Dietary Database', href: '/admin/dietary-database', icon: Database, badge: 'R' },
     ];
 
     const currentPath = window.location.pathname;
@@ -20,37 +20,53 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex font-sans">
-            {/* Sticky Fixed Sidebar */}
-            <aside className="w-64 bg-slate-900 text-white flex flex-col justify-between p-6 shrink-0 shadow-xl fixed top-0 bottom-0 left-0 z-40 h-screen overflow-y-auto">
+        <div className="min-h-screen bg-[#f7faf4] flex font-sans text-[#223311]">
+            {/* Sidebar Left - CHIAMATES Style */}
+            <aside className="w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0 fixed top-0 bottom-0 left-0 z-40 h-screen overflow-y-auto">
                 <div>
-                    {/* Brand */}
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
-                            <ShieldCheck size={24} />
+                    {/* CHIAMATES Brand Logo */}
+                    <div className="flex items-center gap-3 mb-8 px-2">
+                        <div className="w-12 h-12 rounded-2xl bg-[#64ac1d] flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-emerald-200">
+                            ✨
                         </div>
                         <div>
-                            <h1 className="font-extrabold text-base tracking-wide text-white">Vitality Grid</h1>
-                            <p className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">Admin Portal</p>
+                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">CHIAMATES</h1>
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Member Area</p>
                         </div>
                     </div>
 
-                    {/* Navigation Links */}
-                    <nav className="space-y-1.5">
+                    {/* Admin User Card */}
+                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl mb-6 border border-gray-100">
+                        <div className="w-10 h-10 rounded-full bg-[#64ac1d] text-white flex items-center justify-center font-extrabold text-sm">
+                            {user.name ? user.name.charAt(0) : 'D'}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-xs font-extrabold text-[#223311] truncate">{user.name}</p>
+                            <p className="text-[10px] text-gray-400 font-bold truncate">{user.role}</p>
+                        </div>
+                    </div>
+
+                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3 px-2">Menu Utama</p>
+
+                    {/* Navigation Items with Pill Style */}
+                    <nav className="space-y-1">
                         {navItems.map((item) => {
-                            const Icon = item.icon;
                             const isActive = currentPath === item.href;
                             return (
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-all ${
+                                    className={`flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-extrabold transition-all ${
                                         isActive
-                                            ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
-                                            : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                            ? 'bg-[#eef6e6] text-[#64ac1d] shadow-2xs'
+                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`}
                                 >
-                                    <Icon size={18} />
+                                    <span className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black shrink-0 ${
+                                        isActive ? 'bg-[#64ac1d] text-white' : 'bg-gray-100 text-gray-500'
+                                    }`}>
+                                        {item.badge}
+                                    </span>
                                     <span>{item.name}</span>
                                 </Link>
                             );
@@ -58,51 +74,44 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                     </nav>
                 </div>
 
-                {/* Footer User Info & Logout */}
-                <div className="border-t border-slate-800 pt-4 mt-6">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs uppercase">
-                            {user.name ? user.name.charAt(0) : 'A'}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                            <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                            <p className="text-[10px] text-emerald-400 font-medium truncate">{user.role}</p>
-                        </div>
-                    </div>
-
+                {/* Footer Logout */}
+                <div className="border-t border-gray-100 pt-4 mt-6">
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800 hover:bg-rose-600/20 hover:text-rose-400 text-slate-300 rounded-xl text-xs font-semibold transition"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-50 hover:bg-rose-50 hover:text-rose-600 text-gray-600 rounded-2xl text-xs font-extrabold transition border border-gray-100"
                     >
-                        <LogOut size={16} /> Logout
+                        <LogOut size={16} /> Keluar
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content View with Sidebar Margin Offset */}
+            {/* Main Content Layout */}
             <div className="flex-1 flex flex-col min-w-0 ml-64 min-h-screen">
                 {/* Topbar */}
-                <header className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center shadow-xs sticky top-0 z-30">
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-xl font-extrabold text-gray-800">{title}</h2>
+                <header className="bg-white border-b border-gray-100 px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-2xs">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gray-50 text-gray-600 border border-gray-100">
+                            <LayoutDashboard size={18} />
+                        </div>
+                        <div>
+                            <h2 className="text-base font-extrabold text-[#223311]">CHIAMATES</h2>
+                            <p className="text-[10px] text-gray-400 font-bold">Admin Portal</p>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-4">
                         <input
                             type="text"
-                            placeholder="Search users, meals, or scans..."
-                            className="bg-gray-100 border border-gray-200 rounded-xl px-4 py-2 text-xs w-64 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                            placeholder="Cari data, menu, atau scan..."
+                            className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2 text-xs w-64 focus:outline-none focus:ring-2 focus:ring-[#64ac1d]"
                         />
-                        <button className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                        <button className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
                             <Bell size={18} />
-                        </button>
-                        <button className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
-                            <HelpCircle size={18} />
                         </button>
                     </div>
                 </header>
 
-                {/* Page Content */}
+                {/* Main Body */}
                 <main className="p-8 flex-1">
                     {children}
                 </main>

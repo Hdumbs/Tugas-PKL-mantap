@@ -5,10 +5,14 @@
 
 @theme {
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-    --color-emerald-primary: #10b981;
+    --color-chia-green: #64ac1d;
+    --color-chia-dark: #223311;
+    --color-chia-light: #f7faf4;
+    --color-chia-pill: #eef6e6;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #f9fafb;
+    background-color: #f7faf4;
+    color: #223311;
 }
