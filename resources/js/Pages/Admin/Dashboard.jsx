@@ -21,12 +21,10 @@ import {
     TrendingUp,
     Flame,
     Smile,
-    Award,
     Bot,
     Send,
     Sparkles,
-    RefreshCw,
-    Check
+    RefreshCw
 } from 'lucide-react';
 
 ChartJS.register(
@@ -53,7 +51,7 @@ export default function Dashboard({
     const [messages, setMessages] = useState([
         {
             sender: 'ai',
-            text: ai_initial_insight || 'Halo Dafha! Saya AI Executive Advisor CHIAMATES. Ingin mengecek menu mana yang paling favorit hari ini?'
+            text: ai_initial_insight || 'Halo Admin! Saya AI Executive Advisor Amidyas Superfood. Ingin mengecek menu mana yang paling favorit hari ini?'
         }
     ]);
     const [inputQuestion, setInputQuestion] = useState('');
@@ -116,14 +114,14 @@ export default function Dashboard({
         <AdminLayout title="Executive Overview">
             <div className="space-y-8 font-sans text-[#223311]">
                 
-                {/* CHIAMATES Green Hero Welcome Banner */}
+                {/* Amidyas Superfood Hero Welcome Banner */}
                 <div className="bg-[#64ac1d] text-white p-8 rounded-3xl shadow-md relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div className="relative z-10 max-w-xl">
                         <span className="text-[10px] font-black uppercase tracking-wider text-emerald-100 bg-white/20 px-3 py-1 rounded-full mb-3 inline-block backdrop-blur-md">
-                            ADMIN PORTAL CHIAMATES
+                            ADMIN PORTAL AMIDYAS SUPERFOOD
                         </span>
                         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                            Halo, Admin Dafha
+                            Halo, Dafha Super Admin
                         </h1>
                         <p className="text-xs md:text-sm text-emerald-50 mt-2 font-medium">
                             Pantau hasil pemindaian kalori makanan, riwayat scan pelanggan, kepuasan rasa, dan analitik resto secara real-time.
@@ -135,7 +133,6 @@ export default function Dashboard({
                         <h2 className="text-2xl md:text-3xl font-black mt-1">{metrics.est_revenue || 'Rp 14.500.000'}</h2>
                     </div>
 
-                    {/* Decorative Circle Shapes matching screenshot */}
                     <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full pointer-events-none" />
                 </div>
 
@@ -167,7 +164,7 @@ export default function Dashboard({
                             <Bot size={22} />
                         </div>
                         <div>
-                            <h3 className="font-extrabold text-base text-[#223311]">Asisten AI CHIAMATES</h3>
+                            <h3 className="font-extrabold text-base text-[#223311]">Asisten AI Vitality Grid</h3>
                             <p className="text-xs text-gray-400 font-medium">Asisten analisis bisnis & rekomendasi rasa resto</p>
                         </div>
                     </div>
@@ -177,7 +174,7 @@ export default function Dashboard({
                             <div key={index} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 {msg.sender === 'ai' && (
                                     <div className="w-7 h-7 rounded-xl bg-[#64ac1d] text-white flex items-center justify-center shrink-0 font-bold">
-                                        P
+                                        AI
                                     </div>
                                 )}
                                 <div className={`p-3.5 rounded-2xl max-w-xl font-semibold leading-relaxed ${

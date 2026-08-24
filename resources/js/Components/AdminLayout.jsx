@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
-import { LayoutDashboard, Users, Cpu, Database, LogOut, ShieldCheck, Bell, HelpCircle, User } from 'lucide-react';
+import { LayoutDashboard, Users, Cpu, Database, LogOut, ShieldCheck, Bell } from 'lucide-react';
 
 export default function AdminLayout({ children, title = 'Dashboard' }) {
     const { auth } = usePage().props;
-    const user = auth?.user || { name: 'Dafha Petakilan', role: 'Super Admin', email: 'admin@amidyas.com' };
+    const user = auth?.user || { name: 'Dafha Super Admin', role: 'Super Admin', email: 'admin@amidyas.com' };
 
     const navItems = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, badge: 'D' },
@@ -21,17 +21,17 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
 
     return (
         <div className="min-h-screen bg-[#f7faf4] flex font-sans text-[#223311]">
-            {/* Sidebar Left - CHIAMATES Style */}
+            {/* Sidebar Left - Amidyas Superfood Admin Style */}
             <aside className="w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0 fixed top-0 bottom-0 left-0 z-40 h-screen overflow-y-auto">
                 <div>
-                    {/* CHIAMATES Brand Logo */}
+                    {/* Vitality Grid Brand Logo */}
                     <div className="flex items-center gap-3 mb-8 px-2">
                         <div className="w-12 h-12 rounded-2xl bg-[#64ac1d] flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-emerald-200">
-                            ✨
+                            🥗
                         </div>
                         <div>
-                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">CHIAMATES</h1>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Admin Portal</p>
+                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">Vitality Grid</h1>
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Amidyas Superfood</p>
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
 
                     <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3 px-2">Menu Utama</p>
 
-                    {/* Navigation Items with Pill Style */}
+                    {/* Navigation Items */}
                     <nav className="space-y-1">
                         {navItems.map((item) => {
                             const isActive = currentPath === item.href;
@@ -94,8 +94,8 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                             <LayoutDashboard size={18} />
                         </div>
                         <div>
-                            <h2 className="text-base font-extrabold text-[#223311]">CHIAMATES</h2>
-                            <p className="text-[10px] text-gray-400 font-bold">Admin Portal</p>
+                            <h2 className="text-base font-extrabold text-[#223311]">Vitality Grid Admin</h2>
+                            <p className="text-[10px] text-gray-400 font-bold">Amidyas Superfood Portal</p>
                         </div>
                     </div>
 
