@@ -120,13 +120,13 @@ export default function Dashboard({
                 <div className="bg-[#64ac1d] text-white p-8 rounded-3xl shadow-md relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div className="relative z-10 max-w-xl">
                         <span className="text-[10px] font-black uppercase tracking-wider text-emerald-100 bg-white/20 px-3 py-1 rounded-full mb-3 inline-block backdrop-blur-md">
-                            SELAMAT DATANG DI CHIAMATES
+                            ADMIN PORTAL CHIAMATES
                         </span>
                         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                            Halo, Dafha Petakilan
+                            Halo, Admin Dafha
                         </h1>
                         <p className="text-xs md:text-sm text-emerald-50 mt-2 font-medium">
-                            Senang melihat kamu kembali. Pantau jumlah pemindaian kalori, kepuasan rasa, dan analitik resto secara real-time.
+                            Pantau hasil pemindaian kalori makanan, riwayat scan pelanggan, kepuasan rasa, dan analitik resto secara real-time.
                         </p>
                     </div>
 

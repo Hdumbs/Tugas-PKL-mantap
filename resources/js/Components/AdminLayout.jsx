@@ -7,9 +7,9 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
     const user = auth?.user || { name: 'Dafha Petakilan', role: 'Super Admin', email: 'admin@amidyas.com' };
 
     const navItems = [
-        { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, badge: 'H' },
-        { name: 'Team Members', href: '/admin/team', icon: Users, badge: 'K' },
-        { name: 'AI Analytics', href: '/admin/ai-analytics', icon: Cpu, badge: 'P' },
+        { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, badge: 'D' },
+        { name: 'Team Members', href: '/admin/team', icon: Users, badge: 'T' },
+        { name: 'AI Analytics', href: '/admin/ai-analytics', icon: Cpu, badge: 'A' },
         { name: 'Dietary Database', href: '/admin/dietary-database', icon: Database, badge: 'R' },
     ];
 
@@ -31,7 +31,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                         </div>
                         <div>
                             <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">CHIAMATES</h1>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Member Area</p>
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Admin Portal</p>
                         </div>
                     </div>
 
