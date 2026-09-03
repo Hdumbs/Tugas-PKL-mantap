@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import AdminLayout from '../../Components/AdminLayout';
 import { router } from '@inertiajs/react';
-import { UserPlus, Search, Trash2, Mail, Shield, X, CheckCircle } from 'lucide-react';
+import { UserPlus, Search, Trash2, Shield, X, Eye, EyeOff } from 'lucide-react';
 
 export default function TeamManagement({ members = [] }) {
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState('Editor');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,19 +18,21 @@ export default function TeamManagement({ members = [] }) {
         router.post('/admin/team/invite', {
             name,
             email,
+            password,
             role,
         }, {
             onSuccess: () => {
                 setShowInviteModal(false);
                 setName('');
                 setEmail('');
+                setPassword('');
             },
             onFinish: () => setIsSubmitting(false),
         });
     };
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to remove this team member?')) {
+        if (confirm('Apakah kamu yakin ingin menghapus anggota admin ini?')) {
             router.delete(`/admin/team/${id}`);
         }
     };
@@ -42,15 +46,15 @@ export default function TeamManagement({ members = [] }) {
                         <Search size={16} className="absolute left-3 top-3 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search team members..."
+                            placeholder="Cari anggota tim..."
                             className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                         />
                     </div>
                     <button
                         onClick={() => setShowInviteModal(true)}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md shadow-emerald-200 transition flex items-center gap-2"
+                        className="bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition flex items-center gap-2"
                     >
-                        <UserPlus size={16} /> + Invite New Admin
+                        <UserPlus size={16} /> + Tambah Admin Baru
                     </button>
                 </div>
 
@@ -59,18 +63,18 @@ export default function TeamManagement({ members = [] }) {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-50 border-b border-gray-100 text-gray-400 text-[11px] uppercase tracking-wider font-bold">
-                                <th className="py-3.5 px-6">Name & Email</th>
+                                <th className="py-3.5 px-6">Nama & Email</th>
                                 <th className="py-3.5 px-6">Role</th>
                                 <th className="py-3.5 px-6">Status</th>
-                                <th className="py-3.5 px-6">Last Login</th>
-                                <th className="py-3.5 px-6 text-right">Actions</th>
+                                <th className="py-3.5 px-6">Terakhir Login</th>
+                                <th className="py-3.5 px-6 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 text-xs">
                             {members.map((member) => (
                                 <tr key={member.id} className="hover:bg-gray-50/80 transition">
                                     <td className="py-4 px-6 flex items-center gap-3">
-                                        <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs">
+                                        <div className="w-9 h-9 rounded-full bg-[#eef6e6] text-[#64ac1d] font-bold flex items-center justify-center text-xs">
                                             {member.name.charAt(0)}
                                         </div>
                                         <div>
@@ -80,13 +84,13 @@ export default function TeamManagement({ members = [] }) {
                                     </td>
                                     <td className="py-4 px-6 font-semibold text-gray-700">
                                         <span className="inline-flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg text-slate-700 font-bold text-[11px]">
-                                            <Shield size={12} className="text-emerald-600" /> {member.role}
+                                            <Shield size={12} className="text-[#64ac1d]" /> {member.role}
                                         </span>
                                     </td>
                                     <td className="py-4 px-6">
                                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
                                             member.status === 'Active'
-                                                ? 'bg-emerald-100 text-emerald-700'
+                                                ? 'bg-[#eef6e6] text-[#64ac1d]'
                                                 : 'bg-amber-100 text-amber-700'
                                         }`}>
                                             {member.status}
@@ -95,13 +99,13 @@ export default function TeamManagement({ members = [] }) {
                                     <td className="py-4 px-6 text-gray-500 font-medium">
                                         {member.last_login_at
                                             ? new Date(member.last_login_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })
-                                            : 'Never'}
+                                            : 'Belum Pernah'}
                                     </td>
                                     <td className="py-4 px-6 text-right">
                                         <button
                                             onClick={() => handleDelete(member.id)}
                                             className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition"
-                                            title="Remove Admin"
+                                            title="Hapus Admin"
                                         >
                                             <Trash2 size={16} />
                                         </button>
@@ -112,12 +116,12 @@ export default function TeamManagement({ members = [] }) {
                     </table>
                 </div>
 
-                {/* Invite Modal */}
+                {/* Invite / Add Modal */}
                 {showInviteModal && (
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
                         <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-6">
                             <div className="flex justify-between items-center border-b border-gray-100 pb-4">
-                                <h3 className="font-extrabold text-base text-gray-900">Invite New Admin</h3>
+                                <h3 className="font-extrabold text-base text-gray-900">Tambah Admin Baru</h3>
                                 <button onClick={() => setShowInviteModal(false)} className="text-gray-400 hover:text-gray-600">
                                     <X size={20} />
                                 </button>
@@ -125,19 +129,19 @@ export default function TeamManagement({ members = [] }) {
 
                             <form onSubmit={handleInvite} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+                                    <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
                                     <input
                                         type="text"
                                         required
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="e.g. Alex Rivera"
+                                        placeholder="Contoh: Alex Rivera"
                                         className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+                                    <label className="block text-xs font-bold text-gray-700 mb-1">Email Admin</label>
                                     <input
                                         type="email"
                                         required
@@ -149,17 +153,38 @@ export default function TeamManagement({ members = [] }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold text-gray-700 mb-2">Assign Role</label>
+                                    <label className="block text-xs font-bold text-gray-700 mb-1">Password Custom</label>
+                                    <div className="relative">
+                                        <input
+                                            type={showPassword ? 'text' : 'password'}
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Masukkan password akun..."
+                                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none pr-10"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                                        >
+                                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-700 mb-2">Pilih Role Access</label>
                                     <div className="space-y-2">
                                         {[
-                                            { r: 'Super Admin', desc: 'Full access to all settings and team management' },
-                                            { r: 'Editor', desc: 'Can monitor scans and update nutritional database' },
-                                            { r: 'Viewer', desc: 'Read-only access to analytics and reviews' }
+                                            { r: 'Super Admin', desc: 'Hak akses penuh ke seluruh sistem dan kelola tim' },
+                                            { r: 'Editor', desc: 'Dapat memantau scan dan memperbarui database nutrisi' },
+                                            { r: 'Viewer', desc: 'Akses lihat analitik dan ulasan makanan saja' }
                                         ].map((item) => (
                                             <label
                                                 key={item.r}
                                                 className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition ${
-                                                    role === item.r ? 'border-emerald-500 bg-emerald-50/50' : 'border-gray-200'
+                                                    role === item.r ? 'border-[#64ac1d] bg-[#eef6e6]' : 'border-gray-200'
                                                 }`}
                                             >
                                                 <input
@@ -168,7 +193,7 @@ export default function TeamManagement({ members = [] }) {
                                                     value={item.r}
                                                     checked={role === item.r}
                                                     onChange={(e) => setRole(e.target.value)}
-                                                    className="mt-0.5 text-emerald-600 focus:ring-emerald-500"
+                                                    className="mt-0.5 text-[#64ac1d] focus:ring-[#64ac1d]"
                                                 />
                                                 <div>
                                                     <p className="text-xs font-bold text-gray-900">{item.r}</p>
@@ -185,14 +210,14 @@ export default function TeamManagement({ members = [] }) {
                                         onClick={() => setShowInviteModal(false)}
                                         className="px-4 py-2 text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-xl"
                                     >
-                                        Cancel
+                                        Batal
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="px-5 py-2 text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-md transition"
+                                        className="px-5 py-2 text-xs font-extrabold bg-[#64ac1d] hover:bg-emerald-700 text-white rounded-xl shadow-xs transition"
                                     >
-                                        Send Invite
+                                        Simpan Admin
                                     </button>
                                 </div>
                             </form>

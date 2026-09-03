@@ -171,18 +171,19 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
             'role' => 'required|string|in:Super Admin,Admin,Maintainer,Editor,Viewer',
         ]);
 
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => Hash::make('password123'),
+            'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
-            'status' => 'Pending',
+            'status' => 'Active',
         ]);
 
-        return back()->with('success', 'Admin berhasil ditambahkan!');
+        return back()->with('success', 'Admin berhasil ditambahkan dengan password custom!');
     }
 
     public function deleteTeam(int $id)
