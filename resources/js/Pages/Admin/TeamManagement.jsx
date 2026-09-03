@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import AdminLayout from '../../Components/AdminLayout';
-import { router } from '@inertiajs/react';
-import { UserPlus, Search, Trash2, Shield, X, Eye, EyeOff } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { UserPlus, Search, Trash2, Shield, X, Eye, EyeOff, Lock } from 'lucide-react';
 
 export default function TeamManagement({ members = [] }) {
+    const { auth, errors } = usePage().props;
+    const currentUser = auth?.user || {};
+    const isSuperAdmin = currentUser.role === 'Super Admin';
+
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -32,6 +36,10 @@ export default function TeamManagement({ members = [] }) {
     };
 
     const handleDelete = (id) => {
+        if (!isSuperAdmin) {
+            alert('Akses ditolak! Hanya Super Admin yang berhak menghapus akun admin.');
+            return;
+        }
         if (confirm('Apakah kamu yakin ingin menghapus anggota admin ini?')) {
             router.delete(`/admin/team/${id}`);
         }
@@ -40,6 +48,12 @@ export default function TeamManagement({ members = [] }) {
     return (
         <AdminLayout title="Team Management">
             <div className="space-y-6">
+                {errors?.error && (
+                    <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl text-xs font-bold text-center">
+                        {errors.error}
+                    </div>
+                )}
+
                 {/* Header Action Bar */}
                 <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-xs">
                     <div className="relative flex-1 max-w-sm">
@@ -50,12 +64,14 @@ export default function TeamManagement({ members = [] }) {
                             className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                         />
                     </div>
-                    <button
-                        onClick={() => setShowInviteModal(true)}
-                        className="bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition flex items-center gap-2"
-                    >
-                        <UserPlus size={16} /> + Tambah Admin Baru
-                    </button>
+                    {isSuperAdmin && (
+                        <button
+                            onClick={() => setShowInviteModal(true)}
+                            className="bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition flex items-center gap-2"
+                        >
+                            <UserPlus size={16} /> + Tambah Admin Baru
+                        </button>
+                    )}
                 </div>
 
                 {/* Team Members Table */}
@@ -102,13 +118,19 @@ export default function TeamManagement({ members = [] }) {
                                             : 'Belum Pernah'}
                                     </td>
                                     <td className="py-4 px-6 text-right">
-                                        <button
-                                            onClick={() => handleDelete(member.id)}
-                                            className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition"
-                                            title="Hapus Admin"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
+                                        {isSuperAdmin && member.id !== currentUser.id ? (
+                                            <button
+                                                onClick={() => handleDelete(member.id)}
+                                                className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition"
+                                                title="Hapus Admin"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        ) : (
+                                            <span className="text-gray-300 p-2 inline-block" title="Akses Terkunci (Super Admin Only)">
+                                                <Lock size={16} />
+                                            </span>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -116,8 +138,8 @@ export default function TeamManagement({ members = [] }) {
                     </table>
                 </div>
 
-                {/* Invite / Add Modal */}
-                {showInviteModal && (
+                {/* Invite Modal */}
+                {showInviteModal && isSuperAdmin && (
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
                         <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-6">
                             <div className="flex justify-between items-center border-b border-gray-100 pb-4">

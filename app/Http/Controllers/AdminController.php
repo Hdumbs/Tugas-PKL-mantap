@@ -71,7 +71,6 @@ class AdminController extends Controller
         $deliciousSurveys = Survey::where('food_satisfaction', 'Delicious')->count();
         $satisfactionRate = $totalSurveys > 0 ? round(($deliciousSurveys / $totalSurveys) * 100) : 92;
 
-        // Estimated sales revenue from food scans (Avg Rp 65.000 / dish)
         $estRevenue = $totalScans * 65000;
 
         $recentScans = Scan::with(['user', 'review'])->latest()->take(6)->get();
@@ -84,7 +83,6 @@ class AdminController extends Controller
             1 => Review::where('rating', 1)->count() ?: 0,
         ];
 
-        // Top Selling Dishes vs Slow Moving Dishes
         $topRatedMeals = Scan::select('food_name', 'calories', 'image_url', DB::raw('count(scans.id) as scan_count'))
             ->groupBy('food_name', 'calories', 'image_url')
             ->orderByDesc('scan_count')
@@ -106,7 +104,6 @@ class AdminController extends Controller
             'revenue' => [2925000, 4030000, 3770000, 5200000, 6175000, 7800000, 7150000],
         ];
 
-        // Default AI Business Summary Insight
         $aiInitialInsight = "Berdasarkan analisis penjualan terkini: Menu terlaris hari ini adalah **Grilled Salmon Quinoa Bowl** dengan perolehan kepuasan 94%. Menu yang perlu dipromosikan lebih lanjut adalah **Acai Berry Smoothie** karena frekuensi pemindaiannya masih di bawah rata-rata. Estimasi omzet resto meningkat 14.2% minggu ini.";
 
         return Inertia::render('Admin/Dashboard', [
@@ -168,6 +165,11 @@ class AdminController extends Controller
 
     public function inviteTeam(Request $request)
     {
+        $currentUser = Auth::user();
+        if ($currentUser->role !== 'Super Admin') {
+            return back()->withErrors(['error' => 'Hanya Super Admin yang berhak menambah akun admin!']);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -188,13 +190,23 @@ class AdminController extends Controller
 
     public function deleteTeam(int $id)
     {
-        $user = User::findOrFail($id);
-        if ($user->id === Auth::id()) {
-            return back()->withErrors(['error' => 'Tidak bisa menghapus diri sendiri!']);
-        }
-        $user->delete();
+        $currentUser = Auth::user();
 
-        return back()->with('success', 'Anggota tim admin dihapus.');
+        // Strict RBAC: Only Super Admin can delete admin accounts
+        if ($currentUser->role !== 'Super Admin') {
+            return back()->withErrors(['error' => 'Akses ditolak. Hanya Super Admin yang berhak menghapus akun admin!']);
+        }
+
+        $userToDelete = User::findOrFail($id);
+
+        // Cannot delete self
+        if ($userToDelete->id === $currentUser->id) {
+            return back()->withErrors(['error' => 'Tidak dapat menghapus akun Anda sendiri!']);
+        }
+
+        $userToDelete->delete();
+
+        return back()->with('success', 'Anggota tim admin berhasil dihapus.');
     }
 
     public function aiAnalytics(): Response
