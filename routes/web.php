@@ -21,6 +21,9 @@ Route::post('/survey', [SurveyController::class, 'store'])->name('survey.store')
 
 Route::get('/history', [ScanController::class, 'history'])->name('history');
 
+// Route alias for unauthenticated middleware
+Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
+
 // Admin Portal routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {

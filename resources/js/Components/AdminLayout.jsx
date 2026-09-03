@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
-import { LayoutDashboard, Users, Cpu, Database, LogOut, ShieldCheck, Bell } from 'lucide-react';
+import { LayoutDashboard, Users, Cpu, Database, LogOut, Menu, X, Bell } from 'lucide-react';
 
 export default function AdminLayout({ children, title = 'Dashboard' }) {
     const { auth } = usePage().props;
     const user = auth?.user || { name: 'Dafha Super Admin', role: 'Super Admin', email: 'admin@amidyas.com' };
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navItems = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, badge: 'D' },
@@ -21,21 +22,40 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
 
     return (
         <div className="min-h-screen bg-[#f7faf4] flex font-sans text-[#223311]">
-            {/* Sidebar Left - Amidyas Superfood Admin Style */}
-            <aside className="w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0 fixed top-0 bottom-0 left-0 z-40 h-screen overflow-y-auto">
+            
+            {/* Mobile Backdrop Overlay */}
+            {sidebarOpen && (
+                <div
+                    onClick={() => setSidebarOpen(false)}
+                    className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 md:hidden transition-opacity"
+                />
+            )}
+
+            {/* Responsive Sidebar (Mobile Drawer + Desktop Fixed) */}
+            <aside className={`w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0 fixed top-0 bottom-0 left-0 z-50 h-screen overflow-y-auto transition-transform duration-300 ${
+                sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+            }`}>
                 <div>
-                    {/* Brand Logo */}
-                    <div className="flex items-center gap-3 mb-8 px-2">
-                        <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-12 h-12 rounded-2xl object-contain shadow-xs" />
-                        <div>
-                            <h1 className="font-extrabold text-lg text-[#223311] tracking-tight">Amidyas Scanner</h1>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Admin Portal</p>
+                    {/* Header Logo */}
+                    <div className="flex items-center justify-between mb-8 px-2">
+                        <div className="flex items-center gap-3">
+                            <img src="/images/logo.png" alt="Amidyas Superfood Logo" className="w-10 h-10 object-contain" />
+                            <div>
+                                <h1 className="font-extrabold text-base text-[#223311] tracking-tight">Amidyas Scanner</h1>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Admin Portal</p>
+                            </div>
                         </div>
+                        <button
+                            onClick={() => setSidebarOpen(false)}
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 md:hidden"
+                        >
+                            <X size={20} />
+                        </button>
                     </div>
 
-                    {/* Admin User Card */}
+                    {/* Admin Profile Info */}
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl mb-6 border border-gray-100">
-                        <div className="w-10 h-10 rounded-full bg-[#64ac1d] text-white flex items-center justify-center font-extrabold text-sm">
+                        <div className="w-9 h-9 rounded-full bg-[#64ac1d] text-white flex items-center justify-center font-extrabold text-sm shrink-0">
                             {user.name ? user.name.charAt(0) : 'D'}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -54,6 +74,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                                 <Link
                                     key={item.name}
                                     href={item.href}
+                                    onClick={() => setSidebarOpen(false)}
                                     className={`flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-extrabold transition-all ${
                                         isActive
                                             ? 'bg-[#eef6e6] text-[#64ac1d] shadow-2xs'
@@ -83,23 +104,34 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                 </div>
             </aside>
 
-            {/* Main Content Layout */}
-            <div className="flex-1 flex flex-col min-w-0 ml-64 min-h-screen">
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col min-w-0 md:ml-64 ml-0 min-h-screen">
                 {/* Topbar */}
-                <header className="bg-white border-b border-gray-100 px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-2xs">
+                <header className="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-2xs">
                     <div className="flex items-center gap-3">
-                        <img src="/images/logo.png" alt="Logo" className="w-9 h-9 object-contain" />
-                        <div>
-                            <h2 className="text-base font-extrabold text-[#223311]">Amidyas Food Scanner</h2>
-                            <p className="text-[10px] text-gray-400 font-bold">Admin Portal</p>
+                        <button
+                            onClick={() => setSidebarOpen(true)}
+                            className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-gray-600 md:hidden"
+                        >
+                            <Menu size={20} />
+                        </button>
+
+                        <div className="hidden md:flex items-center gap-3">
+                            <img src="/images/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                            <div>
+                                <h2 className="text-base font-extrabold text-[#223311]">{title}</h2>
+                                <p className="text-[10px] text-gray-400 font-bold">Amidyas Admin Portal</p>
+                            </div>
                         </div>
+
+                        <h2 className="text-sm font-extrabold text-[#223311] md:hidden">{title}</h2>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                         <input
                             type="text"
-                            placeholder="Cari data, menu, atau scan..."
-                            className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2 text-xs w-64 focus:outline-none focus:ring-2 focus:ring-[#64ac1d]"
+                            placeholder="Cari..."
+                            className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2 text-xs w-36 sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#64ac1d]"
                         />
                         <button className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
                             <Bell size={18} />
@@ -108,7 +140,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                 </header>
 
                 {/* Main Body */}
-                <main className="p-8 flex-1">
+                <main className="p-4 md:p-8 flex-1">
                     {children}
                 </main>
             </div>
