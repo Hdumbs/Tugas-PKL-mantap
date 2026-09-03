@@ -131,10 +131,18 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                         <input
                             type="text"
                             placeholder="Cari..."
-                            className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2 text-xs w-36 sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#64ac1d]"
+                            className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2 text-xs w-28 sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#64ac1d]"
                         />
                         <button className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
                             <Bell size={18} />
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-extrabold transition border border-rose-200"
+                            title="Keluar dari Admin Portal"
+                        >
+                            <LogOut size={16} />
+                            <span className="hidden sm:inline">Keluar</span>
                         </button>
                     </div>
                 </header>
