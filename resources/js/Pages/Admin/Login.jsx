@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { router } from '@inertiajs/react';
-import { ShieldCheck, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Eye, EyeOff, ArrowRight, X, AlertCircle } from 'lucide-react';
 
 export default function Login({ errors }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showForgotModal, setShowForgotModal] = useState(false);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -17,7 +18,7 @@ export default function Login({ errors }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-sans">
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-sans relative">
             <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 p-8 space-y-6">
                 {/* Branding */}
                 <div className="text-center space-y-2">
@@ -72,7 +73,13 @@ export default function Login({ errors }) {
                             <input type="checkbox" defaultChecked className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
                             Remember me
                         </label>
-                        <a href="#" className="text-emerald-600 font-bold hover:underline">Forgot Password?</a>
+                        <button
+                            type="button"
+                            onClick={() => setShowForgotModal(true)}
+                            className="text-emerald-600 font-bold hover:underline"
+                        >
+                            Forgot Password?
+                        </button>
                     </div>
 
                     <button
@@ -84,6 +91,36 @@ export default function Login({ errors }) {
                     </button>
                 </form>
             </div>
+
+            {/* Forgot Password Modal */}
+            {showForgotModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
+                    <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl text-center space-y-4 relative border border-gray-100">
+                        <button
+                            onClick={() => setShowForgotModal(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 rounded-full"
+                        >
+                            <X size={20} />
+                        </button>
+
+                        <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
+                            <AlertCircle size={28} />
+                        </div>
+
+                        <h3 className="text-base font-extrabold text-gray-900">Lupa Password Admin?</h3>
+                        <p className="text-xs text-gray-600 font-bold leading-relaxed px-2">
+                            Tolong hubungi Superadmin Amidyas Superfood untuk melakukan reset password akun kamu.
+                        </p>
+
+                        <button
+                            onClick={() => setShowForgotModal(false)}
+                            className="w-full py-3 bg-[#64ac1d] hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-md transition"
+                        >
+                            Saya Mengerti
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
