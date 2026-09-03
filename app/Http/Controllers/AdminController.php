@@ -188,18 +188,36 @@ class AdminController extends Controller
         return back()->with('success', 'Admin berhasil ditambahkan dengan password custom!');
     }
 
+    public function updateTeamPassword(Request $request, int $id)
+    {
+        $currentUser = Auth::user();
+
+        if ($currentUser->role !== 'Super Admin') {
+            return back()->withErrors(['error' => 'Akses ditolak. Hanya Super Admin yang berhak mengubah password admin!']);
+        }
+
+        $validated = $request->validate([
+            'password' => 'required|string|min:6',
+        ]);
+
+        $userToUpdate = User::findOrFail($id);
+        $userToUpdate->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return back()->with('success', 'Password akun admin berhasil diperbarui!');
+    }
+
     public function deleteTeam(int $id)
     {
         $currentUser = Auth::user();
 
-        // Strict RBAC: Only Super Admin can delete admin accounts
         if ($currentUser->role !== 'Super Admin') {
             return back()->withErrors(['error' => 'Akses ditolak. Hanya Super Admin yang berhak menghapus akun admin!']);
         }
 
         $userToDelete = User::findOrFail($id);
 
-        // Cannot delete self
         if ($userToDelete->id === $currentUser->id) {
             return back()->withErrors(['error' => 'Tidak dapat menghapus akun Anda sendiri!']);
         }

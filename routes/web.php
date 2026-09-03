@@ -38,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/ask-advisor', [AdminController::class, 'askAiAdvisor'])->name('ask_advisor');
         Route::get('/team', [AdminController::class, 'team'])->name('team');
         Route::post('/team/invite', [AdminController::class, 'inviteTeam'])->name('team.invite');
+        Route::put('/team/{id}/password', [AdminController::class, 'updateTeamPassword'])->name('team.password');
         Route::delete('/team/{id}', [AdminController::class, 'deleteTeam'])->name('team.delete');
 
         Route::get('/ai-analytics', [AdminController::class, 'aiAnalytics'])->name('ai');
