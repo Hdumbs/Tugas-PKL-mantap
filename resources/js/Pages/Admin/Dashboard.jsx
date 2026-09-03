@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminLayout from '../../Components/AdminLayout';
+import { usePage } from '@inertiajs/react';
 import axios from 'axios';
 import {
     Chart as ChartJS,
@@ -48,6 +49,8 @@ export default function Dashboard({
     scan_trend = {},
     ai_initial_insight = ''
 }) {
+    const { auth } = usePage().props;
+    const userName = auth?.user?.name || 'Admin';
     const [messages, setMessages] = useState([
         {
             sender: 'ai',
@@ -121,7 +124,7 @@ export default function Dashboard({
                             ADMIN PORTAL AMIDYAS SUPERFOOD
                         </span>
                         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                            Halo, Dafha Super Admin
+                            Halo, {userName}
                         </h1>
                         <p className="text-xs md:text-sm text-emerald-50 mt-2 font-medium">
                             Pantau hasil pemindaian kalori makanan, riwayat scan pelanggan, kepuasan rasa, dan analitik resto secara real-time.
