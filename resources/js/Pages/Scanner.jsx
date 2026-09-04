@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { router } from '@inertiajs/react';
-import { Camera, Zap, RefreshCw, AlertCircle, Upload, XCircle, Grid, Sparkles, Image as ImageIcon, ShieldCheck } from 'lucide-react';
+import { Camera, RefreshCw, AlertCircle, Upload, XCircle, Grid, Image as ImageIcon, Video } from 'lucide-react';
 
 export default function Scanner({ errors }) {
     const videoRef = useRef(null);
@@ -14,21 +14,32 @@ export default function Scanner({ errors }) {
 
     const startCamera = async () => {
         setCameraError(null);
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: 'environment',
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 }
-                }
-            });
-            if (videoRef.current) {
-                videoRef.current.srcObject = stream;
-                setCameraActive(true);
+        setCameraActive(false);
+
+        // Try environment camera first, then any available camera
+        const constraints = [
+            { video: { facingMode: { exact: 'environment' } } },
+            { video: { facingMode: 'environment' } },
+            { video: { facingMode: 'user' } },
+            { video: true }
+        ];
+
+        let stream = null;
+        for (const constraint of constraints) {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia(constraint);
+                if (stream) break;
+            } catch (err) {
+                // Continue trying next constraint fallback
             }
-        } catch (err) {
-            console.error('Camera access failed:', err);
-            setCameraError('Kamera tidak aktif. Anda dapat mengunggah gambar makanan.');
+        }
+
+        if (stream && videoRef.current) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.play().catch(() => {});
+            setCameraActive(true);
+        } else {
+            setCameraError('Kamera tidak dapat diakses. Gunakan tombol "Pilih Gambar Makanan" di sebelah kanan.');
             setCameraActive(false);
         }
     };
@@ -86,10 +97,10 @@ export default function Scanner({ errors }) {
             <header className="bg-white border-b border-gray-100 px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-2xs">
                 <div className="flex items-center gap-3">
                     <img src="/images/logo.png" alt="CHIA Logo" className="w-10 h-10 object-contain" />
-                <div>
-                    <h1 className="text-base font-extrabold text-[#223311]">Amidyas Food Scanner</h1>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Nutritional AI Engine</p>
-                </div>
+                    <div>
+                        <h1 className="text-base font-extrabold text-[#223311]">Amidyas Food Scanner</h1>
+                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Nutritional AI Engine</p>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -126,6 +137,14 @@ export default function Scanner({ errors }) {
                                 Arahkan kamera ke piring makanan atau unggah foto untuk menghitung kalori & nutrisi otomatis.
                             </p>
                         </div>
+
+                        <button
+                            onClick={startCamera}
+                            className="px-3.5 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs font-bold rounded-xl text-gray-700 transition flex items-center gap-2"
+                        >
+                            <Video size={16} className="text-[#64ac1d]" />
+                            <span>Koneksikan Kamera</span>
+                        </button>
                     </div>
 
                     {/* Non-Food Error Alert */}
@@ -152,9 +171,16 @@ export default function Scanner({ errors }) {
 
                             {!cameraActive && (
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center filter brightness-50"
+                                    className="absolute inset-0 bg-cover bg-center filter brightness-50 flex items-center justify-center"
                                     style={{ backgroundImage: `url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80')` }}
-                                />
+                                >
+                                    <button
+                                        onClick={startCamera}
+                                        className="relative z-10 px-5 py-3 bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold rounded-2xl shadow-lg transition flex items-center gap-2"
+                                    >
+                                        <Camera size={18} /> Aktifkan Kamera PC / HP
+                                    </button>
+                                </div>
                             )}
 
                             {showGrid && (
@@ -172,11 +198,13 @@ export default function Scanner({ errors }) {
                             )}
 
                             {/* Clean Framing Box */}
-                            <div className="absolute z-20 w-64 md:w-80 h-64 md:h-80 border-2 border-[#64ac1d] rounded-2xl flex items-center justify-center p-4">
-                                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-extrabold text-emerald-300 border border-[#64ac1d]/50">
-                                    Posisikan Makanan Di Sini
+                            {cameraActive && (
+                                <div className="absolute z-20 w-64 md:w-80 h-64 md:h-80 border-2 border-[#64ac1d] rounded-2xl flex items-center justify-center p-4">
+                                    <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-extrabold text-emerald-300 border border-[#64ac1d]/50">
+                                        Posisikan Makanan Di Sini
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
                             {cameraError && (
                                 <div className="absolute bottom-4 left-4 right-4 z-20 bg-amber-500/20 border border-amber-500/40 text-amber-200 text-xs p-3 rounded-xl backdrop-blur-md flex items-center gap-2">
