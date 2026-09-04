@@ -4,27 +4,38 @@ echo ===================================================
 echo     AMIDYAS FOOD SCANNER LOCAL STARTER
 echo ===================================================
 echo.
-echo [1/3] Checking SQLite database...
+echo [1/4] Detecting Local IP Address...
+
+for /f "tokens=*" %%a in ('powershell -Command "Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias 'Wi-Fi','Ethernet' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty IPAddress | Select-Object -First 1"') do (
+    set MY_IP=%%a
+)
+
+if "%MY_IP%"=="" (
+    set MY_IP=127.0.0.1
+)
+
+echo [2/4] Checking SQLite database...
 if not exist "database\database.sqlite" (
     echo Database missing, creating database.sqlite...
     type NUL > database\database.sqlite
 )
 
-echo [2/3] Running migrations and seeding initial data...
+echo [3/4] Running migrations and seeding initial data...
 php artisan migrate --force
 php artisan db:seed --force
 
-echo [3/3] Building production assets...
+echo [4/4] Building production assets...
 call npm run build
 
 echo.
 echo ===================================================
-echo   SERVER SUCCESSFUL!
-echo   App Scanner: http://127.0.0.1:8000
-echo   Admin Portal: http://127.0.0.1:8000/admin/login
+echo   SERVER BERJALAN PADA:
+echo   Web Local Laptop : http://127.0.0.1:8000
+echo   Web HP (Wi-Fi)   : http://%MY_IP%:8000
 echo.
-echo   Admin Email: admin@amidyas.com
-echo   Admin Pass : password123
+echo   Admin Portal     : http://127.0.0.1:8000/admin/login
+echo   Admin Email      : admin@amidyas.com
+echo   Admin Pass       : password123
 echo ===================================================
 echo.
 

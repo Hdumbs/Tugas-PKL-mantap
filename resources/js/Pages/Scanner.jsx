@@ -14,33 +14,45 @@ export default function Scanner({ errors }) {
 
     const startCamera = async () => {
         setCameraError(null);
-        setCameraActive(false);
 
-        // Try environment camera first, then any available camera
-        const constraints = [
-            { video: { facingMode: { exact: 'environment' } } },
-            { video: { facingMode: 'environment' } },
-            { video: { facingMode: 'user' } },
-            { video: true }
-        ];
-
-        let stream = null;
-        for (const constraint of constraints) {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia(constraint);
-                if (stream) break;
-            } catch (err) {
-                // Continue trying next constraint fallback
-            }
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            setCameraError('Browser tidak mendukung akses kamera langsung. Gunakan tombol "Pilih Gambar Makanan".');
+            return;
         }
 
-        if (stream && videoRef.current) {
-            videoRef.current.srcObject = stream;
-            videoRef.current.play().catch(() => {});
-            setCameraActive(true);
-        } else {
-            setCameraError('Kamera tidak dapat diakses. Gunakan tombol "Pilih Gambar Makanan" di sebelah kanan.');
-            setCameraActive(false);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'environment',
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            });
+
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+                videoRef.current.onloadedmetadata = () => {
+                    videoRef.current.play();
+                    setCameraActive(true);
+                };
+            }
+        } catch (err) {
+            console.error('Camera access error:', err);
+            try {
+                // Fallback attempt without facingMode constraint (for laptops/webcams)
+                const fallbackStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                if (videoRef.current && fallbackStream) {
+                    videoRef.current.srcObject = fallbackStream;
+                    videoRef.current.onloadedmetadata = () => {
+                        videoRef.current.play();
+                        setCameraActive(true);
+                    };
+                }
+            } catch (fallbackErr) {
+                setCameraError('Kamera tidak aktif/izin ditolak oleh browser. Gunakan "Pilih Gambar Makanan" dari galeri.');
+                setCameraActive(false);
+            }
         }
     };
 
@@ -171,12 +183,12 @@ export default function Scanner({ errors }) {
 
                             {!cameraActive && (
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center filter brightness-50 flex items-center justify-center"
+                                    className="absolute inset-0 bg-cover bg-center filter brightness-50 flex flex-col items-center justify-center gap-3 p-6 text-center"
                                     style={{ backgroundImage: `url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80')` }}
                                 >
                                     <button
                                         onClick={startCamera}
-                                        className="relative z-10 px-5 py-3 bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold rounded-2xl shadow-lg transition flex items-center gap-2"
+                                        className="relative z-10 px-5 py-3 bg-[#64ac1d] hover:bg-emerald-700 text-white text-xs font-extrabold rounded-2xl shadow-lg transition flex items-center gap-2 active:scale-95"
                                     >
                                         <Camera size={18} /> Aktifkan Kamera PC / HP
                                     </button>
@@ -207,9 +219,9 @@ export default function Scanner({ errors }) {
                             )}
 
                             {cameraError && (
-                                <div className="absolute bottom-4 left-4 right-4 z-20 bg-amber-500/20 border border-amber-500/40 text-amber-200 text-xs p-3 rounded-xl backdrop-blur-md flex items-center gap-2">
-                                    <AlertCircle size={16} className="shrink-0 text-amber-400" />
-                                    <span>{cameraError}</span>
+                                <div className="absolute bottom-4 left-4 right-4 z-20 bg-amber-500/90 text-white text-xs p-3.5 rounded-2xl backdrop-blur-md flex items-center gap-2 shadow-lg border border-amber-400">
+                                    <AlertCircle size={18} className="shrink-0 text-white" />
+                                    <span className="font-extrabold">{cameraError}</span>
                                 </div>
                             )}
                         </div>
